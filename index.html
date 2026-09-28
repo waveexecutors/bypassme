@@ -491,6 +491,7 @@
                 }
             });
 
+            
             // ========== SCRIPTS HUB ==========
             const localScripts = [
                 { title: "Infinite Yield FE Admin", game: "Universal", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()' },
@@ -500,4 +501,61 @@
                 { title: "Owl Hub", game: "Universal", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/OwlHubv2/OwlHub/main/OwlHub.lua"))()' },
                 { title: "Kavo UI Library", game: "Universal / UI", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()' },
                 { title: "Rayfield UI", game: "Universal / UI", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Rayfield/main/source"))()' },
-                { title: "Prison Life GUI", game: "Prison Life", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptslol/PrisonLife/main/PrisonLife.lua"))()
+                { title: "Prison Life GUI", game: "Prison Life", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptslol/PrisonLife/main/PrisonLife.lua"))()' },
+                { title: "Arsenal Aimbot", game: "Arsenal", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ArsenalScripts/Arsenal/main/Arsenal.lua"))()' },
+                { title: "Jailbreak Auto Rob", game: "Jailbreak", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/JailbreakScripts/AutoRob/main/AutoRob.lua"))()' },
+                { title: "Doors Entity ESP", game: "Doors", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/DoorsScripts/ESP/main/ESP.lua"))()' },
+                { title: "Murder Mystery 2 Silent Aim", game: "MM2", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MM2Scripts/SilentAim/main/SilentAim.lua"))()' }
+            ];
+
+            const searchInput = document.getElementById('script-search');
+            searchInput.addEventListener('input', () => {
+                renderScripts(searchInput.value.trim().toLowerCase());
+            });
+
+            function renderScripts(filter = '') {
+                const container = document.getElementById('scripts-container');
+                container.innerHTML = '';
+
+                const filtered = localScripts.filter(item => 
+                    item.title.toLowerCase().includes(filter) || item.game.toLowerCase().includes(filter)
+                );
+
+                if (filtered.length === 0) {
+                    container.innerHTML = '<div style="color:var(--text-sub); grid-column:1/-1; padding:2rem; text-align:center;">No scripts found.</div>';
+                    return;
+                }
+
+                filtered.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'script-card';
+                    card.innerHTML = `
+                        <div>
+                            <div class="script-title">${escapeHtml(item.title)}</div>
+                            <div class="game-name">${escapeHtml(item.game)}</div>
+                            <div class="script-code">${escapeHtml(item.script)}</div>
+                        </div>
+                        <button class="btn-copy">Copy Script</button>
+                    `;
+
+                    const copyBtn = card.querySelector('.btn-copy');
+                    copyBtn.addEventListener('click', () => {
+                        navigator.clipboard.writeText(item.script);
+                        copyBtn.innerText = 'Copied!';
+                        setTimeout(() => { copyBtn.innerText = 'Copy Script'; }, 2000);
+                    });
+
+                    container.appendChild(card);
+                });
+            }
+
+            function escapeHtml(str) {
+                return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+            }
+
+            // Initial render
+            renderScripts();
+        });
+    </script>
+</body>
+</html>
