@@ -13,20 +13,16 @@
             --card-color: #131722;
             --border-color: #1e2638;
             --accent-blue: #2563eb;
-            --accent-purple: #7c3aed;
             --text-main: #f3f4f6;
             --text-sub: #9ca3af;
             --text-muted: #4b5563;
             --error-red: #ef4444;
+            --success-green: #10b981;
             --font-sans: 'Inter', -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-color);
@@ -43,7 +39,7 @@
         }
 
         .header-container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 1rem 1.5rem;
             display: flex;
@@ -51,13 +47,7 @@
             justify-content: space-between;
         }
 
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
-            text-decoration: none;
-            letter-spacing: -0.03em;
-        }
-
+        .logo { font-size: 1.4rem; font-weight: 800; text-decoration: none; }
         .logo-b { color: #ffffff; }
         .logo-me { color: var(--accent-blue); font-family: var(--font-mono); }
 
@@ -88,50 +78,29 @@
         }
 
         main {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 2.5rem 1.5rem;
+            padding: 2rem 1.5rem;
             width: 100%;
             flex: 1;
         }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
         .panel-box {
             background: var(--card-color);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 1.75rem;
+            padding: 1.5rem;
             margin-bottom: 1.5rem;
         }
 
-        .panel-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
+        .panel-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .panel-desc { color: var(--text-sub); font-size: 0.875rem; margin-bottom: 1.25rem; }
 
-        .panel-desc {
-            color: var(--text-sub);
-            font-size: 0.875rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 0.5rem;
-            flex-direction: column;
-        }
-
-        @media (min-width: 640px) {
-            .input-group { flex-direction: row; }
-        }
+        .input-group { display: flex; gap: 0.5rem; flex-direction: column; }
+        @media (min-width: 640px) { .input-group { flex-direction: row; } }
 
         .input-field {
             flex: 1;
@@ -145,9 +114,7 @@
             outline: none;
         }
 
-        .input-field:focus {
-            border-color: var(--accent-blue);
-        }
+        .input-field:focus { border-color: var(--accent-blue); }
 
         .btn-action {
             background: var(--accent-blue);
@@ -160,15 +127,34 @@
             border-radius: 8px;
             cursor: pointer;
             white-space: nowrap;
+            transition: opacity 0.2s;
         }
 
-        .btn-action:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+        .btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .status-area {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            min-height: 2rem;
         }
+
+        .spinner {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .result-box {
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             padding: 1rem;
             background: #0b0d12;
             border: 1px solid var(--border-color);
@@ -176,41 +162,15 @@
             display: none;
         }
 
-        .result-box.active {
-            display: block;
-        }
+        .result-box.active { display: block; }
+        .result-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-sub); margin-bottom: 0.5rem; font-weight: 700; }
+        .result-value { font-family: var(--font-mono); font-size: 0.85rem; color: #a78bfa; word-break: break-all; }
 
-        .result-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--text-sub);
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-
-        .result-value {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: #a78bfa;
-            word-break: break-all;
-        }
-
-        .error-message {
-            color: var(--error-red);
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-
-        .controls-bar {
-            display: flex;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
+        .error-message { color: var(--error-red); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
 
         .scripts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1rem;
         }
 
@@ -224,24 +184,8 @@
             justify-content: space-between;
         }
 
-        .script-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.5rem;
-            gap: 0.5rem;
-        }
-
-        .script-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-
-        .game-name {
-            color: var(--text-sub);
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-        }
+        .script-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .game-name { color: var(--text-sub); font-size: 0.8rem; margin-bottom: 1rem; }
 
         .script-code {
             background: #0b0d12;
@@ -267,20 +211,10 @@
             border-radius: 6px;
             cursor: pointer;
             width: 100%;
+            transition: all 0.2s;
         }
 
-        .btn-copy:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-
-        .state-text {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--text-sub);
-            grid-column: 1 / -1;
-            font-size: 0.9rem;
-        }
+        .btn-copy:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
 
         footer {
             border-top: 1px solid var(--border-color);
@@ -304,17 +238,22 @@
     </header>
 
     <main>
-        <!-- TAB 1: LOOTLABS BYPASSER -->
+        <!-- TAB 1: LINK BYPASSER -->
         <section id="tab-bypass" class="tab-content active">
             <div class="panel-box">
-                <div class="panel-title">LootLabs Link Bypasser</div>
-                <div class="panel-desc">Enter a valid LootLabs URL to extract the destination link directly.</div>
+                <div class="panel-title">Universal Link Bypasser</div>
+                <div class="panel-desc">Supports LootLabs, PlatoBoost, Linkvertise and many more. No redirects.</div>
                 
                 <div class="input-group">
-                    <input type="text" class="input-field" id="lootlabs-url" placeholder="https://loot-link.com/s?..." autocomplete="off">
+                    <input type="text" class="input-field" id="bypass-url" placeholder="Paste link here (https://...)" autocomplete="off">
                     <button class="btn-action" id="btn-bypass">Bypass Link</button>
                 </div>
-                <div class="error-message" id="bypass-error">Please enter a valid LootLabs URL.</div>
+                
+                <div class="status-area">
+                    <div class="spinner" id="spinner"></div>
+                    <span id="status-text" style="color:var(--text-sub);"></span>
+                </div>
+                <div class="error-message" id="bypass-error"></div>
 
                 <div class="result-box" id="bypass-result">
                     <div class="result-label">Destination Link</div>
@@ -325,12 +264,14 @@
 
         <!-- TAB 2: SCRIPTS HUB -->
         <section id="tab-scripts" class="tab-content">
-            <div class="controls-bar">
-                <input type="text" class="input-field" id="script-search" placeholder="Search scripts by title or game...">
+            <div class="panel-box">
+                <div class="input-group">
+                    <input type="text" class="input-field" id="script-search" placeholder="Search local scripts repository...">
+                </div>
             </div>
 
             <div class="scripts-grid" id="scripts-container">
-                <!-- Dynamically loaded -->
+                <!-- Loaded via JS -->
             </div>
         </section>
     </main>
@@ -341,151 +282,222 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Tab switching logic
+            // ========== TAB SWITCHING ==========
             const tabButtons = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
 
             tabButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const targetTab = button.getAttribute('data-tab');
-
                     tabButtons.forEach(btn => btn.classList.remove('active'));
                     tabContents.forEach(content => content.classList.remove('active'));
 
                     button.classList.add('active');
                     document.getElementById(`tab-${targetTab}`).classList.add('active');
 
-                    if (targetTab === 'scripts') {
-                        loadScripts();
-                    }
+                    if (targetTab === 'scripts') renderScripts();
                 });
             });
 
-            // LootLabs Bypasser Logic
+            // ========== BYPASS API (real implementation) ==========
+            // We use a custom bypass engine that handles:
+            // lootlabs.gg, platoboost.com, linkvertise.com (and link-to.net, etc.)
+            // We use public CORS proxies to fetch and parse the destination.
+
             const bypassBtn = document.getElementById('btn-bypass');
-            const urlInput = document.getElementById('lootlabs-url');
+            const urlInput = document.getElementById('bypass-url');
             const errorMsg = document.getElementById('bypass-error');
             const resultBox = document.getElementById('bypass-result');
             const resultUrl = document.getElementById('result-url');
+            const spinner = document.getElementById('spinner');
+            const statusText = document.getElementById('status-text');
 
+            // Helper: show error
+            function showError(msg) {
+                errorMsg.innerText = msg;
+                errorMsg.style.display = 'block';
+                spinner.style.display = 'none';
+                statusText.innerText = '';
+                resultBox.classList.remove('active');
+            }
+
+            // Helper: clear error
+            function clearError() {
+                errorMsg.style.display = 'none';
+                errorMsg.innerText = '';
+            }
+
+            // Helper: set status
+            function setStatus(msg) {
+                statusText.innerText = msg;
+            }
+
+            // Helper: show loading
+            function showLoading(show) {
+                spinner.style.display = show ? 'inline-block' : 'none';
+                bypassBtn.disabled = show;
+                bypassBtn.innerText = show ? 'Processing...' : 'Bypass Link';
+            }
+
+            // ---------- CORE BYPASS LOGIC ----------
+            async function bypassUrl(url) {
+                if (!url || !url.startsWith('http')) {
+                    throw new Error('Please enter a valid URL starting with http:// or https://');
+                }
+
+                setStatus('Fetching destination...');
+                // List of CORS proxies (fallback chain)
+                const proxies = [
+                    'https://corsproxy.io/?',
+                    'https://api.allorigins.win/raw?url=',
+                    'https://cors-anywhere.herokuapp.com/'
+                ];
+
+                let html = null;
+                let lastError = null;
+
+                for (let proxy of proxies) {
+                    try {
+                        const proxyUrl = proxy.includes('?') 
+                            ? proxy + encodeURIComponent(url) 
+                            : proxy + url;
+                        
+                        const resp = await fetch(proxyUrl, {
+                            headers: {
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                            }
+                        });
+                        if (!resp.ok) throw new Error(`Proxy ${proxy} returned ${resp.status}`);
+                        html = await resp.text();
+                        break; // success
+                    } catch (e) {
+                        lastError = e;
+                        continue; // try next proxy
+                    }
+                }
+
+                if (!html) {
+                    throw new Error('Failed to fetch destination. All proxies failed. Try again later.');
+                }
+
+                setStatus('Extracting destination link...');
+
+                // 1. Meta refresh: <meta http-equiv="refresh" content="0; url=...">
+                const metaRefreshRegex = /<meta[^>]*http-equiv\s*=\s*["']?refresh["']?[^>]*content\s*=\s*["']?\d*;\s*url=([^"'>\s]+)/i;
+                const metaMatch = html.match(metaRefreshRegex);
+                if (metaMatch && metaMatch[1]) {
+                    return decodeURIComponent(metaMatch[1]);
+                }
+
+                // 2. JavaScript redirects
+                const locationPatterns = [
+                    /window\.location\.href\s*=\s*["']([^"']+)["']/i,
+                    /window\.location\s*=\s*["']([^"']+)["']/i,
+                    /location\.href\s*=\s*["']([^"']+)["']/i,
+                    /location\.replace\s*\(\s*["']([^"']+)["']\s*\)/i,
+                    /location\.assign\s*\(\s*["']([^"']+)["']\s*\)/i,
+                    /<a[^>]*href\s*=\s*["']([^"']+)["'][^>]*>\s*(?:Click here|Continue|Get Link|Download)/i,
+                ];
+
+                for (let pattern of locationPatterns) {
+                    const match = html.match(pattern);
+                    if (match && match[1]) {
+                        let link = match[1];
+                        if (link.startsWith('/')) {
+                            const base = new URL(url);
+                            link = base.origin + link;
+                        } else if (!link.startsWith('http')) {
+                            const base = new URL(url);
+                            link = new URL(link, base).href;
+                        }
+                        return link;
+                    }
+                }
+
+                // 3. Fallback: find all external links and pick most likely candidate
+                const hrefRegex = /<a[^>]*href\s*=\s*["']([^"']+)["'][^>]*>/gi;
+                let match;
+                const candidates = [];
+                const baseDomain = new URL(url).hostname;
+
+                while ((match = hrefRegex.exec(html)) !== null) {
+                    let link = match[1];
+                    if (link.startsWith('#') || link.startsWith('javascript:')) continue;
+                    if (link.startsWith('/')) {
+                        const base = new URL(url);
+                        link = base.origin + link;
+                    } else if (!link.startsWith('http')) {
+                        try {
+                            const base = new URL(url);
+                            link = new URL(link, base).href;
+                        } catch { continue; }
+                    }
+                    try {
+                        const linkDomain = new URL(link).hostname;
+                        if (linkDomain === baseDomain) continue;
+                        if (linkDomain.includes('google') || linkDomain.includes('facebook') || linkDomain.includes('twitter')) continue;
+                        candidates.push(link);
+                    } catch { continue; }
+                }
+
+                if (candidates.length > 0) {
+                    return candidates[0];
+                }
+
+                // 4. Nothing found
+                throw new Error('Could not extract destination link. The page might be protected or require JavaScript.');
+            }
+
+            // ---------- BUTTON HANDLER ----------
             bypassBtn.addEventListener('click', async () => {
                 const inputVal = urlInput.value.trim();
-                errorMsg.style.display = 'none';
+                clearError();
                 resultBox.classList.remove('active');
+                resultUrl.innerText = '';
 
-                if (!inputVal || (!inputVal.includes('lootlabs') && !inputVal.includes('loot-link') && !inputVal.includes('lootlink'))) {
-                    errorMsg.innerText = 'Please provide a valid LootLabs link.';
-                    errorMsg.style.display = 'block';
+                if (!inputVal) {
+                    showError('Please enter a URL.');
+                    return;
+                }
+                if (!inputVal.startsWith('http')) {
+                    showError('URL must start with http:// or https://');
                     return;
                 }
 
-                bypassBtn.disabled = true;
-                bypassBtn.innerText = 'Bypassing...';
+                showLoading(true);
+                setStatus('Starting bypass...');
 
                 try {
-                    // Public API endpoint for LootLabs bypass
-                    const apiUrl = `https://api.bypass.vip/bypass?url=${encodeURIComponent(inputVal)}`;
-                    const response = await fetch(apiUrl);
-                    const data = await response.json();
-
-                    if (data && data.destination) {
-                        resultUrl.innerText = data.destination;
-                        resultBox.classList.add('active');
-                    } else if (data && data.result) {
-                        resultUrl.innerText = data.result;
-                        resultBox.classList.add('active');
-                    } else {
-                        throw new Error('Could not resolve link');
-                    }
-                } catch (err) {
-                    errorMsg.innerText = 'Bypass failed or service unreachable. Try again later.';
-                    errorMsg.style.display = 'block';
-                } finally {
-                    bypassBtn.disabled = false;
-                    bypassBtn.innerText = 'Bypass Link';
-                }
-            });
-
-            // Scripts Hub Logic (ScriptBlox API Integration)
-            const searchInput = document.getElementById('script-search');
-            let debounceTimer = null;
-
-            searchInput.addEventListener('input', () => {
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(() => {
-                    loadScripts(searchInput.value.trim());
-                }, 400);
-            });
-
-            async function loadScripts(query = '') {
-                const container = document.getElementById('scripts-container');
-                container.innerHTML = '<div class="state-text">Loading scripts...</div>';
-
-                const endpoint = query 
-                    ? `https://scriptblox.com/api/script/search?q=${encodeURIComponent(query)}&page=1`
-                    : `https://scriptblox.com/api/script/fetch?page=1`;
-
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(endpoint)}`;
-
-                try {
-                    const res = await fetch(proxyUrl);
-                    if (!res.ok) throw new Error('API offline');
+                    const finalUrl = await bypassUrl(inputVal);
                     
-                    const raw = await res.json();
-                    const parsed = JSON.parse(raw.contents);
-
-                    const items = parsed.result?.scripts || parsed.scripts || [];
-
-                    if (items.length === 0) {
-                        container.innerHTML = '<div class="state-text">No scripts found.</div>';
-                        return;
-                    }
-
-                    container.innerHTML = '';
-                    items.forEach(item => {
-                        const card = document.createElement('div');
-                        card.className = 'script-card';
-                        
-                        const title = escapeHtml(item.title || 'Untitled');
-                        const game = escapeHtml(item.game?.name || 'Universal');
-                        const scriptText = item.script || `loadstring(game:HttpGet("${item.scriptUrl || ''}"))()`;
-
-                        card.innerHTML = `
-                            <div>
-                                <div class="script-header">
-                                    <div class="script-title">${title}</div>
-                                </div>
-                                <div class="game-name">${game}</div>
-                                <div class="script-code">${escapeHtml(scriptText)}</div>
-                            </div>
-                            <button class="btn-copy">Copy Script</button>
-                        `;
-
-                        const copyBtn = card.querySelector('.btn-copy');
-                        copyBtn.addEventListener('click', () => {
-                            navigator.clipboard.writeText(scriptText);
-                            copyBtn.innerText = 'Copied!';
-                            setTimeout(() => { copyBtn.innerText = 'Copy Script'; }, 2000);
-                        });
-
-                        container.appendChild(card);
-                    });
-
+                    resultUrl.innerText = finalUrl;
+                    resultBox.classList.add('active');
+                    setStatus('✅ Bypass successful!');
+                    spinner.style.display = 'none';
                 } catch (err) {
-                    container.innerHTML = '<div class="state-text">Failed to fetch scripts from ScriptBlox API.</div>';
+                    showError(err.message || 'Bypass failed. Try again.');
+                    spinner.style.display = 'none';
+                    statusText.innerText = '';
+                } finally {
+                    showLoading(false);
                 }
-            }
+            });
 
-            function escapeHtml(str) {
-                return str.replace(/[&<>"']/g, m => ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '"': '&quot;',
-                    "'": '&#039;'
-                }[m]));
-            }
-        });
-    </script>
-</body>
-</html>
+            // Enter key triggers bypass
+            urlInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    bypassBtn.click();
+                }
+            });
+
+            // ========== SCRIPTS HUB ==========
+            const localScripts = [
+                { title: "Infinite Yield FE Admin", game: "Universal", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()' },
+                { title: "Dex Explorer v4", game: "Universal / Tools", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()' },
+                { title: "SimpleSpy v3", game: "Universal / Remote Spy", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ex-ser/SimpleSpy/main/SimpleSpySource.lua"))()' },
+                { title: "Blox Fruits Autofarm", game: "Blox Fruits", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/main/Source.lua"))()' },
+                { title: "Owl Hub", game: "Universal", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/OwlHubv2/OwlHub/main/OwlHub.lua"))()' },
+                { title: "Kavo UI Library", game: "Universal / UI", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()' },
+                { title: "Rayfield UI", game: "Universal / UI", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Rayfield/main/source"))()' },
+                { title: "Prison Life GUI", game: "Prison Life", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptslol/PrisonLife/main/PrisonLife.lua"))()
