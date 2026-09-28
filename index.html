@@ -626,4 +626,78 @@
 
         function fetchPastebinMock(query) {
             const mockPastebin = [
-                { title: "Infinite Yield FE Admin", game: "Universal 
+                { title: "Infinite Yield FE Admin", game: "Universal / Todos", api: "Pastebin", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()' },
+                { title: "Dex Explorer v4", game: "Universal / Tools", api: "Pastebin", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()' },
+                { title: "SimpleSpy v3", game: "Universal / Remote Spy", api: "Pastebin", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ex-ser/SimpleSpy/main/SimpleSpySource.lua"))()' }
+            ];
+
+            const filtered = query 
+                ? mockPastebin.filter(s => s.title.toLowerCase().includes(query.toLowerCase()) || s.game.toLowerCase().includes(query.toLowerCase()))
+                : mockPastebin;
+
+            renderScripts(filtered);
+        }
+
+        function renderScripts(scripts) {
+            const container = document.getElementById('scripts-container');
+            container.innerHTML = '';
+
+            if (scripts.length === 0) {
+                container.innerHTML = '<div class="empty-state">Nenhum script encontrado.</div>';
+                return;
+            }
+
+            scripts.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = 'script-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="script-header">
+                            <div class="script-title">${escapeHtml(item.title)}</div>
+                            <span class="api-tag">${escapeHtml(item.api)}</span>
+                        </div>
+                        <div class="game-title">Jogo: ${escapeHtml(item.game)}</div>
+                        <div class="script-preview">${escapeHtml(item.script)}</div>
+                    </div>
+                    <button class="btn-copy" onclick="copyCode(this, '${encodeURIComponent(item.script)}')">
+                        Copiar Script
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function copyCode(button, encodedScript) {
+            const script = decodeURIComponent(encodedScript);
+            navigator.clipboard.writeText(script).then(() => {
+                const originalText = button.innerText;
+                button.innerText = 'Copiado!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function handleBypass() {
+            const val = document.getElementById('bypass-input').value;
+            if(!val) {
+                alert('Por favor, insira uma URL valida para realizar o bypass.');
+                return;
+            }
+            alert('Processando link: ' + val);
+        }
+    </script>
+</body>
+</html>
