@@ -8,225 +8,48 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0b0d12;
-            --card-color: #131722;
-            --border-color: #1e2638;
-            --accent-blue: #2563eb;
-            --text-main: #f3f4f6;
-            --text-sub: #9ca3af;
-            --text-muted: #4b5563;
-            --error-red: #ef4444;
-            --success-green: #10b981;
-            --font-sans: 'Inter', -apple-system, sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            border-bottom: 1px solid var(--border-color);
-            background: #0b0d12;
-        }
-
-        .header-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo { font-size: 1.4rem; font-weight: 800; text-decoration: none; }
-        .logo-b { color: #ffffff; }
-        .logo-me { color: var(--accent-blue); font-family: var(--font-mono); }
-
-        .nav-tabs {
-            display: flex;
-            gap: 0.25rem;
-            background: #131722;
-            padding: 0.25rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-sub);
-            padding: 0.45rem 1rem;
-            font-family: var(--font-sans);
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .tab-btn.active {
-            background: var(--accent-blue);
-            color: #ffffff;
-        }
-
-        main {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-            width: 100%;
-            flex: 1;
-        }
-
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        .panel-box {
-            background: var(--card-color);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .panel-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem; }
-        .panel-desc { color: var(--text-sub); font-size: 0.875rem; margin-bottom: 1.25rem; }
-
-        .input-group { display: flex; gap: 0.5rem; flex-direction: column; }
-        @media (min-width: 640px) { .input-group { flex-direction: row; } }
-
-        .input-field {
-            flex: 1;
-            background: #0b0d12;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            outline: none;
-        }
-
-        .input-field:focus { border-color: var(--accent-blue); }
-
-        .btn-action {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-family: var(--font-sans);
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: opacity 0.2s;
-        }
-
-        .btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
-
-        .status-area {
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.9rem;
-            min-height: 2rem;
-        }
-
-        .spinner {
-            width: 1.25rem;
-            height: 1.25rem;
-            border: 2px solid rgba(255,255,255,0.1);
-            border-top-color: var(--accent-blue);
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            display: none;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .result-box {
-            margin-top: 0.5rem;
-            padding: 1rem;
-            background: #0b0d12;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            display: none;
-        }
-
-        .result-box.active { display: block; }
-        .result-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-sub); margin-bottom: 0.5rem; font-weight: 700; }
-        .result-value { font-family: var(--font-mono); font-size: 0.85rem; color: #a78bfa; word-break: break-all; }
-
-        .error-message { color: var(--error-red); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
-
-        .scripts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-
-        .script-card {
-            background: var(--card-color);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .script-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
-        .game-name { color: var(--text-sub); font-size: 0.8rem; margin-bottom: 1rem; }
-
-        .script-code {
-            background: #0b0d12;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 0.5rem 0.75rem;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--text-sub);
-            white-space: nowrap;
-            overflow-x: auto;
-            margin-bottom: 1rem;
-        }
-
-        .btn-copy {
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 0.5rem;
-            font-family: var(--font-sans);
-            font-size: 0.8rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.2s;
-        }
-
-        .btn-copy:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
-
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 1.25rem 1.5rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-        }
+        :root{--bg:#0b0d12;--card:#131722;--border:#1e2638;--accent:#2563eb;--text:#f3f4f6;--sub:#9ca3af;--muted:#4b5563;--err:#ef4444;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column}
+        header{border-bottom:1px solid var(--border)}
+        .header-container{max-width:1000px;margin:0 auto;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+        .logo{font-size:1.4rem;font-weight:800;text-decoration:none}
+        .logo-b{color:#fff}
+        .logo-me{color:var(--accent);font-family:var(--mono)}
+        .nav-tabs{display:flex;gap:.25rem;background:var(--card);padding:.25rem;border-radius:8px;border:1px solid var(--border)}
+        .tab-btn{background:transparent;border:none;color:var(--sub);padding:.45rem 1rem;font-family:var(--sans);font-size:.85rem;font-weight:600;border-radius:6px;cursor:pointer}
+        .tab-btn.active{background:var(--accent);color:#fff}
+        main{max-width:1000px;margin:0 auto;padding:2rem 1.5rem;width:100%;flex:1}
+        .tab-content{display:none}
+        .tab-content.active{display:block}
+        .panel-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+        .panel-title{font-size:1.2rem;font-weight:700;margin-bottom:.25rem}
+        .panel-desc{color:var(--sub);font-size:.875rem;margin-bottom:1.25rem}
+        .input-group{display:flex;gap:.5rem;flex-direction:column}
+        @media(min-width:640px){.input-group{flex-direction:row}}
+        .input-field{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;color:var(--text);font-family:var(--sans);font-size:.9rem;outline:none}
+        .input-field:focus{border-color:var(--accent)}
+        .btn-action{background:var(--accent);color:#fff;border:none;padding:.75rem 1.5rem;font-family:var(--sans);font-size:.9rem;font-weight:600;border-radius:8px;cursor:pointer;white-space:nowrap}
+        .btn-action:disabled{opacity:.6;cursor:not-allowed}
+        .status-area{margin-top:1rem;display:flex;align-items:center;gap:.75rem;font-size:.9rem;min-height:2rem}
+        .spinner{width:1.25rem;height:1.25rem;border:2px solid rgba(255,255,255,.1);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;display:none}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .result-box{margin-top:.5rem;padding:1rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;display:none}
+        .result-box.active{display:block}
+        .result-label{font-size:.75rem;text-transform:uppercase;color:var(--sub);margin-bottom:.5rem;font-weight:700}
+        .result-value{font-family:var(--mono);font-size:.85rem;color:#a78bfa;word-break:break-all}
+        .error-message{color:var(--err);font-size:.85rem;margin-top:.5rem;display:none}
+        .scripts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+        .script-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem;display:flex;flex-direction:column;justify-content:space-between}
+        .script-title{font-size:.95rem;font-weight:700;margin-bottom:.25rem}
+        .game-name{color:var(--sub);font-size:.8rem;margin-bottom:1rem}
+        .script-code{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.5rem .75rem;font-family:var(--mono);font-size:.75rem;color:var(--sub);white-space:nowrap;overflow-x:auto;margin-bottom:1rem}
+        .btn-copy{background:transparent;color:var(--text);border:1px solid var(--border);padding:.5rem;font-family:var(--sans);font-size:.8rem;font-weight:600;border-radius:6px;cursor:pointer;width:100%;transition:all .2s}
+        .btn-copy:hover{border-color:var(--accent);color:var(--accent)}
+        footer{border-top:1px solid var(--border);padding:1.25rem 1.5rem;text-align:center;color:var(--muted);font-size:.8rem}
     </style>
 </head>
 <body>
-
     <header>
         <div class="header-container">
             <a href="#" class="logo"><span class="logo-b">B.</span><span class="logo-me">ME</span></a>
@@ -238,23 +61,19 @@
     </header>
 
     <main>
-        <!-- TAB 1: LINK BYPASSER -->
         <section id="tab-bypass" class="tab-content active">
             <div class="panel-box">
                 <div class="panel-title">Universal Link Bypasser</div>
-                <div class="panel-desc">Supports LootLabs, PlatoBoost, Linkvertise and many more. No redirects.</div>
-                
+                <div class="panel-desc">Supports LootLabs, PlatoBoost, Linkvertise and many more.</div>
                 <div class="input-group">
                     <input type="text" class="input-field" id="bypass-url" placeholder="Paste link here (https://...)" autocomplete="off">
                     <button class="btn-action" id="btn-bypass">Bypass Link</button>
                 </div>
-                
                 <div class="status-area">
                     <div class="spinner" id="spinner"></div>
-                    <span id="status-text" style="color:var(--text-sub);"></span>
+                    <span id="status-text" style="color:var(--sub)"></span>
                 </div>
                 <div class="error-message" id="bypass-error"></div>
-
                 <div class="result-box" id="bypass-result">
                     <div class="result-label">Destination Link</div>
                     <div class="result-value" id="result-url"></div>
@@ -262,300 +81,256 @@
             </div>
         </section>
 
-        <!-- TAB 2: SCRIPTS HUB -->
         <section id="tab-scripts" class="tab-content">
             <div class="panel-box">
                 <div class="input-group">
-                    <input type="text" class="input-field" id="script-search" placeholder="Search local scripts repository...">
+                    <input type="text" class="input-field" id="script-search" placeholder="Search ScriptBlox...">
                 </div>
             </div>
-
-            <div class="scripts-grid" id="scripts-container">
-                <!-- Loaded via JS -->
-            </div>
+            <div class="scripts-grid" id="scripts-container"></div>
         </section>
     </main>
 
-    <footer>
-        B.ME &mdash; Independent Utility Tool
-    </footer>
+    <footer>B.ME &mdash; Independent Utility Tool</footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // ========== TAB SWITCHING ==========
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetTab = button.getAttribute('data-tab');
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    tabContents.forEach(content => content.classList.remove('active'));
-
-                    button.classList.add('active');
-                    document.getElementById(`tab-${targetTab}`).classList.add('active');
-
-                    if (targetTab === 'scripts') renderScripts();
-                });
+        // ========== TAB SWITCHING (fixed) ==========
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+                if (btn.dataset.tab === 'scripts') loadScripts();
             });
+        });
 
-            // ========== BYPASS API (real implementation) ==========
-            // We use a custom bypass engine that handles:
-            // lootlabs.gg, platoboost.com, linkvertise.com (and link-to.net, etc.)
-            // We use public CORS proxies to fetch and parse the destination.
+        // ========== BYPASS API ==========
+        const bypassBtn = document.getElementById('btn-bypass');
+        const urlInput = document.getElementById('bypass-url');
+        const errorMsg = document.getElementById('bypass-error');
+        const resultBox = document.getElementById('bypass-result');
+        const resultUrl = document.getElementById('result-url');
+        const spinner = document.getElementById('spinner');
+        const statusText = document.getElementById('status-text');
 
-            const bypassBtn = document.getElementById('btn-bypass');
-            const urlInput = document.getElementById('bypass-url');
-            const errorMsg = document.getElementById('bypass-error');
-            const resultBox = document.getElementById('bypass-result');
-            const resultUrl = document.getElementById('result-url');
-            const spinner = document.getElementById('spinner');
-            const statusText = document.getElementById('status-text');
+        function showError(msg) {
+            errorMsg.innerText = msg;
+            errorMsg.style.display = 'block';
+            spinner.style.display = 'none';
+            statusText.innerText = '';
+            resultBox.classList.remove('active');
+        }
 
-            // Helper: show error
-            function showError(msg) {
-                errorMsg.innerText = msg;
-                errorMsg.style.display = 'block';
-                spinner.style.display = 'none';
-                statusText.innerText = '';
-                resultBox.classList.remove('active');
+        function clearError() {
+            errorMsg.style.display = 'none';
+            errorMsg.innerText = '';
+        }
+
+        function setStatus(msg) { statusText.innerText = msg; }
+
+        function showLoading(show) {
+            spinner.style.display = show ? 'inline-block' : 'none';
+            bypassBtn.disabled = show;
+            bypassBtn.innerText = show ? 'Processing...' : 'Bypass Link';
+        }
+
+        async function bypassUrl(url) {
+            if (!url || !url.startsWith('http')) throw new Error('Please enter a valid URL.');
+            setStatus('Fetching destination...');
+            
+            const proxies = [
+                'https://corsproxy.io/?',
+                'https://api.allorigins.win/raw?url='
+            ];
+            
+            let html = null;
+            for (const proxy of proxies) {
+                try {
+                    const proxyUrl = proxy.includes('?') ? proxy + encodeURIComponent(url) : proxy + url;
+                    const resp = await fetch(proxyUrl, {
+                        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
+                    });
+                    if (!resp.ok) throw new Error(`Proxy returned ${resp.status}`);
+                    html = await resp.text();
+                    break;
+                } catch (e) { continue; }
             }
-
-            // Helper: clear error
-            function clearError() {
-                errorMsg.style.display = 'none';
-                errorMsg.innerText = '';
-            }
-
-            // Helper: set status
-            function setStatus(msg) {
-                statusText.innerText = msg;
-            }
-
-            // Helper: show loading
-            function showLoading(show) {
-                spinner.style.display = show ? 'inline-block' : 'none';
-                bypassBtn.disabled = show;
-                bypassBtn.innerText = show ? 'Processing...' : 'Bypass Link';
-            }
-
-            // ---------- CORE BYPASS LOGIC ----------
-            async function bypassUrl(url) {
-                if (!url || !url.startsWith('http')) {
-                    throw new Error('Please enter a valid URL starting with http:// or https://');
-                }
-
-                setStatus('Fetching destination...');
-                // List of CORS proxies (fallback chain)
-                const proxies = [
-                    'https://corsproxy.io/?',
-                    'https://api.allorigins.win/raw?url=',
-                    'https://cors-anywhere.herokuapp.com/'
-                ];
-
-                let html = null;
-                let lastError = null;
-
-                for (let proxy of proxies) {
-                    try {
-                        const proxyUrl = proxy.includes('?') 
-                            ? proxy + encodeURIComponent(url) 
-                            : proxy + url;
-                        
-                        const resp = await fetch(proxyUrl, {
-                            headers: {
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                            }
-                        });
-                        if (!resp.ok) throw new Error(`Proxy ${proxy} returned ${resp.status}`);
-                        html = await resp.text();
-                        break; // success
-                    } catch (e) {
-                        lastError = e;
-                        continue; // try next proxy
-                    }
-                }
-
-                if (!html) {
-                    throw new Error('Failed to fetch destination. All proxies failed. Try again later.');
-                }
-
-                setStatus('Extracting destination link...');
-
-                // 1. Meta refresh: <meta http-equiv="refresh" content="0; url=...">
-                const metaRefreshRegex = /<meta[^>]*http-equiv\s*=\s*["']?refresh["']?[^>]*content\s*=\s*["']?\d*;\s*url=([^"'>\s]+)/i;
-                const metaMatch = html.match(metaRefreshRegex);
-                if (metaMatch && metaMatch[1]) {
-                    return decodeURIComponent(metaMatch[1]);
-                }
-
-                // 2. JavaScript redirects
-                const locationPatterns = [
-                    /window\.location\.href\s*=\s*["']([^"']+)["']/i,
-                    /window\.location\s*=\s*["']([^"']+)["']/i,
-                    /location\.href\s*=\s*["']([^"']+)["']/i,
-                    /location\.replace\s*\(\s*["']([^"']+)["']\s*\)/i,
-                    /location\.assign\s*\(\s*["']([^"']+)["']\s*\)/i,
-                    /<a[^>]*href\s*=\s*["']([^"']+)["'][^>]*>\s*(?:Click here|Continue|Get Link|Download)/i,
-                ];
-
-                for (let pattern of locationPatterns) {
-                    const match = html.match(pattern);
-                    if (match && match[1]) {
-                        let link = match[1];
-                        if (link.startsWith('/')) {
-                            const base = new URL(url);
-                            link = base.origin + link;
-                        } else if (!link.startsWith('http')) {
-                            const base = new URL(url);
-                            link = new URL(link, base).href;
-                        }
-                        return link;
-                    }
-                }
-
-                // 3. Fallback: find all external links and pick most likely candidate
-                const hrefRegex = /<a[^>]*href\s*=\s*["']([^"']+)["'][^>]*>/gi;
-                let match;
-                const candidates = [];
-                const baseDomain = new URL(url).hostname;
-
-                while ((match = hrefRegex.exec(html)) !== null) {
-                    let link = match[1];
-                    if (link.startsWith('#') || link.startsWith('javascript:')) continue;
+            
+            if (!html) throw new Error('All proxies failed. Try again later.');
+            
+            setStatus('Extracting destination link...');
+            
+            // Meta refresh
+            const metaMatch = html.match(/<meta[^>]*http-equiv\s*=\s*["']?refresh["']?[^>]*content\s*=\s*["']?\d*;\s*url=([^"'>\s]+)/i);
+            if (metaMatch && metaMatch[1]) return decodeURIComponent(metaMatch[1]);
+            
+            // JS redirects
+            const patterns = [
+                /window\.location\.href\s*=\s*["']([^"']+)["']/i,
+                /window\.location\s*=\s*["']([^"']+)["']/i,
+                /location\.href\s*=\s*["']([^"']+)["']/i,
+                /location\.replace\s*\(\s*["']([^"']+)["']\s*\)/i
+            ];
+            
+            for (const p of patterns) {
+                const m = html.match(p);
+                if (m && m[1]) {
+                    let link = m[1];
                     if (link.startsWith('/')) {
                         const base = new URL(url);
                         link = base.origin + link;
                     } else if (!link.startsWith('http')) {
-                        try {
-                            const base = new URL(url);
-                            link = new URL(link, base).href;
-                        } catch { continue; }
+                        link = new URL(link, url).href;
                     }
-                    try {
-                        const linkDomain = new URL(link).hostname;
-                        if (linkDomain === baseDomain) continue;
-                        if (linkDomain.includes('google') || linkDomain.includes('facebook') || linkDomain.includes('twitter')) continue;
-                        candidates.push(link);
-                    } catch { continue; }
+                    return link;
                 }
-
-                if (candidates.length > 0) {
-                    return candidates[0];
-                }
-
-                // 4. Nothing found
-                throw new Error('Could not extract destination link. The page might be protected or require JavaScript.');
             }
-
-            // ---------- BUTTON HANDLER ----------
-            bypassBtn.addEventListener('click', async () => {
-                const inputVal = urlInput.value.trim();
-                clearError();
-                resultBox.classList.remove('active');
-                resultUrl.innerText = '';
-
-                if (!inputVal) {
-                    showError('Please enter a URL.');
-                    return;
-                }
-                if (!inputVal.startsWith('http')) {
-                    showError('URL must start with http:// or https://');
-                    return;
-                }
-
-                showLoading(true);
-                setStatus('Starting bypass...');
-
-                try {
-                    const finalUrl = await bypassUrl(inputVal);
-                    
-                    resultUrl.innerText = finalUrl;
-                    resultBox.classList.add('active');
-                    setStatus('✅ Bypass successful!');
-                    spinner.style.display = 'none';
-                } catch (err) {
-                    showError(err.message || 'Bypass failed. Try again.');
-                    spinner.style.display = 'none';
-                    statusText.innerText = '';
-                } finally {
-                    showLoading(false);
-                }
-            });
-
-            // Enter key triggers bypass
-            urlInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    bypassBtn.click();
-                }
-            });
-
             
-            // ========== SCRIPTS HUB ==========
-            const localScripts = [
-                { title: "Infinite Yield FE Admin", game: "Universal", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()' },
-                { title: "Dex Explorer v4", game: "Universal / Tools", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()' },
-                { title: "SimpleSpy v3", game: "Universal / Remote Spy", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ex-ser/SimpleSpy/main/SimpleSpySource.lua"))()' },
-                { title: "Blox Fruits Autofarm", game: "Blox Fruits", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/main/Source.lua"))()' },
-                { title: "Owl Hub", game: "Universal", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/OwlHubv2/OwlHub/main/OwlHub.lua"))()' },
-                { title: "Kavo UI Library", game: "Universal / UI", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()' },
-                { title: "Rayfield UI", game: "Universal / UI", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Rayfield/main/source"))()' },
-                { title: "Prison Life GUI", game: "Prison Life", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptslol/PrisonLife/main/PrisonLife.lua"))()' },
-                { title: "Arsenal Aimbot", game: "Arsenal", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/ArsenalScripts/Arsenal/main/Arsenal.lua"))()' },
-                { title: "Jailbreak Auto Rob", game: "Jailbreak", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/JailbreakScripts/AutoRob/main/AutoRob.lua"))()' },
-                { title: "Doors Entity ESP", game: "Doors", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/DoorsScripts/ESP/main/ESP.lua"))()' },
-                { title: "Murder Mystery 2 Silent Aim", game: "MM2", script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MM2Scripts/SilentAim/main/SilentAim.lua"))()' }
-            ];
+            // Fallback: external links
+            const hrefRegex = /<a[^>]*href\s*=\s*["']([^"']+)["'][^>]*>/gi;
+            let match;
+            const candidates = [];
+            const baseDomain = new URL(url).hostname;
+            
+            while ((match = hrefRegex.exec(html)) !== null) {
+                let link = match[1];
+                if (link.startsWith('#') || link.startsWith('javascript:')) continue;
+                if (link.startsWith('/')) {
+                    link = new URL(url).origin + link;
+                } else if (!link.startsWith('http')) {
+                    try { link = new URL(link, url).href; } catch { continue; }
+                }
+                try {
+                    const domain = new URL(link).hostname;
+                    if (domain === baseDomain) continue;
+                    if (domain.includes('google') || domain.includes('facebook')) continue;
+                    candidates.push(link);
+                } catch { continue; }
+            }
+            
+            if (candidates.length > 0) return candidates[0];
+            throw new Error('Could not extract destination link.');
+        }
 
-            const searchInput = document.getElementById('script-search');
-            searchInput.addEventListener('input', () => {
-                renderScripts(searchInput.value.trim().toLowerCase());
-            });
+        bypassBtn.addEventListener('click', async () => {
+            const inputVal = urlInput.value.trim();
+            clearError();
+            resultBox.classList.remove('active');
+            resultUrl.innerText = '';
+            
+            if (!inputVal) { showError('Please enter a URL.'); return; }
+            if (!inputVal.startsWith('http')) { showError('URL must start with http:// or https://'); return; }
+            
+            showLoading(true);
+            setStatus('Starting bypass...');
+            
+            try {
+                const finalUrl = await bypassUrl(inputVal);
+                resultUrl.innerText = finalUrl;
+                resultBox.classList.add('active');
+                setStatus('✅ Bypass successful!');
+                spinner.style.display = 'none';
+            } catch (err) {
+                showError(err.message);
+            } finally {
+                showLoading(false);
+            }
+        });
 
-            function renderScripts(filter = '') {
-                const container = document.getElementById('scripts-container');
-                container.innerHTML = '';
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); bypassBtn.click(); }
+        });
 
-                const filtered = localScripts.filter(item => 
-                    item.title.toLowerCase().includes(filter) || item.game.toLowerCase().includes(filter)
-                );
+        // ========== SCRIPTBLOX API (real data) ==========
+        const SCRIPTS_CONTAINER = document.getElementById('scripts-container');
+        const SEARCH_INPUT = document.getElementById('script-search');
+        let searchTimeout;
 
-                if (filtered.length === 0) {
-                    container.innerHTML = '<div style="color:var(--text-sub); grid-column:1/-1; padding:2rem; text-align:center;">No scripts found.</div>';
+        async function loadScripts(query = '') {
+            SCRIPTS_CONTAINER.innerHTML = '<div style="color:var(--sub);grid-column:1/-1;text-align:center;padding:2rem">Loading scripts...</div>';
+            
+            try {
+                // Use the public ScriptBlox proxy API
+                const baseUrl = 'https://scriptblox-api-proxy.vercel.app/api';
+                let url;
+                
+                if (query) {
+                    url = `${baseUrl}/search?q=${encodeURIComponent(query)}`;
+                } else {
+                    url = `${baseUrl}/fetch`;
+                }
+                
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('API request failed');
+                const data = await resp.json();
+                
+                // Handle different response structures
+                const scripts = data.result?.scripts || data.scripts || data;
+                
+                if (!scripts || scripts.length === 0) {
+                    SCRIPTS_CONTAINER.innerHTML = '<div style="color:var(--sub);grid-column:1/-1;text-align:center;padding:2rem">No scripts found.</div>';
                     return;
                 }
+                
+                renderScriptCards(scripts);
+            } catch (err) {
+                SCRIPTS_CONTAINER.innerHTML = `<div style="color:var(--err);grid-column:1/-1;text-align:center;padding:2rem">Error loading scripts: ${err.message}</div>`;
+            }
+        }
 
-                filtered.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'script-card';
-                    card.innerHTML = `
-                        <div>
-                            <div class="script-title">${escapeHtml(item.title)}</div>
-                            <div class="game-name">${escapeHtml(item.game)}</div>
-                            <div class="script-code">${escapeHtml(item.script)}</div>
-                        </div>
-                        <button class="btn-copy">Copy Script</button>
-                    `;
-
-                    const copyBtn = card.querySelector('.btn-copy');
-                    copyBtn.addEventListener('click', () => {
-                        navigator.clipboard.writeText(item.script);
-                        copyBtn.innerText = 'Copied!';
-                        setTimeout(() => { copyBtn.innerText = 'Copy Script'; }, 2000);
+        function renderScriptCards(scripts) {
+            SCRIPTS_CONTAINER.innerHTML = '';
+            
+            scripts.slice(0, 24).forEach(script => {
+                const card = document.createElement('div');
+                card.className = 'script-card';
+                
+                const title = script.title || 'Untitled Script';
+                const game = script.game?.name || script.game || 'Unknown Game';
+                const rawCode = script.script || script.code || script.rawScript || '';
+                const displayCode = rawCode.substring(0, 80) + (rawCode.length > 80 ? '...' : '');
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="script-title">${escapeHtml(title)}</div>
+                        <div class="game-name">${escapeHtml(game)}</div>
+                        <div class="script-code">${escapeHtml(displayCode)}</div>
+                    </div>
+                    <button class="btn-copy" data-script="${escapeHtml(rawCode)}">Copy Script</button>
+                `;
+                
+                // Use event delegation for copy button
+                card.querySelector('.btn-copy').addEventListener('click', function() {
+                    const code = this.dataset.script;
+                    navigator.clipboard.writeText(code).then(() => {
+                        this.innerText = 'Copied!';
+                        setTimeout(() => { this.innerText = 'Copy Script'; }, 2000);
+                    }).catch(() => {
+                        this.innerText = 'Failed to copy';
+                        setTimeout(() => { this.innerText = 'Copy Script'; }, 2000);
                     });
-
-                    container.appendChild(card);
                 });
-            }
+                
+                SCRIPTS_CONTAINER.appendChild(card);
+            });
+        }
 
-            function escapeHtml(str) {
-                return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
-            }
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+        }
 
-            // Initial render
-            renderScripts();
+        // Search with debounce
+        SEARCH_INPUT.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                loadScripts(e.target.value.trim());
+            }, 500);
         });
+
+        // Initial load when switching to scripts tab
+        document.querySelector('[data-tab="scripts"]').addEventListener('click', () => loadScripts());
     </script>
 </body>
 </html>
