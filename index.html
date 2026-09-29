@@ -12,7 +12,16 @@
             --err: #ef4444; --sans: 'Inter', sans-serif; --mono: 'JetBrains Mono', monospace;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; display: flex; flex-direction: column; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: var(--sans); 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column;
+            padding-top: 90px;    /* Leave space for sticky top ad */
+            padding-bottom: 90px; /* Leave space for sticky bottom ad */
+        }
         
         header { border-bottom: 1px solid var(--border); background: #0b0d12; }
         .header-container { max-width: 1000px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
@@ -59,7 +68,38 @@
         
         .bypass-result { margin-top: 1rem; padding: 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-family: var(--mono); word-break: break-all; display: none; }
 
-        .ad-container { margin: 2rem auto; text-align: center; width: 100%; max-width: 728px; min-height: 90px; }
+        /* General Ad Container */
+        .ad-container { margin: 1.5rem auto; text-align: center; width: 100%; max-width: 728px; min-height: 90px; }
+
+        /* Floating Top Ad */
+        .floating-ad-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            z-index: 99999;
+            background: rgba(11, 13, 18, 0.95);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Floating Bottom Ad */
+        .floating-ad-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            z-index: 99999;
+            background: rgba(11, 13, 18, 0.95);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         
         footer { border-top: 1px solid var(--border); padding: 1.25rem 1.5rem; text-align: center; color: var(--sub); font-size: 0.8rem; }
         .tab-content { display: none; }
@@ -67,6 +107,19 @@
     </style>
 </head>
 <body>
+
+    <!-- 1. FLOATING TOP AD -->
+    <div class="floating-ad-top">
+        <iframe data-aa='2456731' src='https://acceptable.a-ads.com/2456731/?size=Adaptive'
+                style='border:0; padding:0; width:100%; max-width:728px; height:90px; overflow:hidden; display: block; margin: auto' loading="lazy"></iframe>
+    </div>
+
+    <!-- 2. FLOATING BOTTOM AD -->
+    <div class="floating-ad-bottom">
+        <iframe data-aa='2456731' src='https://acceptable.a-ads.com/2456731/?size=Adaptive'
+                style='border:0; padding:0; width:100%; max-width:728px; height:90px; overflow:hidden; display: block; margin: auto' loading="lazy"></iframe>
+    </div>
+
     <header>
         <div class="header-container">
             <a href="#" class="logo"><span class="logo-b">B.</span><span class="logo-me">ME</span></a>
@@ -86,15 +139,19 @@
                 <div class="timer-box" id="timer-box">⏱ <span id="timer-count">00:00</span></div>
             </div>
 
-            <!-- Ad Unit Fixed Embed -->
+            <!-- 3. IN-PAGE AD #1 (TOP OF MAIN CONTENT) -->
             <div class="ad-container">
-                <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998;">
-                    <iframe data-aa='2456731' src='https://acceptable.a-ads.com/2456731/?size=Adaptive'
-                            style='border:0; padding:0; width:100%; max-width:728px; height:90px; overflow:hidden; display: block; margin: auto' loading="lazy"></iframe>
-                </div>
+                <iframe data-aa='2456731' src='https://acceptable.a-ads.com/2456731/?size=Adaptive'
+                        style='border:0; padding:0; width:100%; max-width:728px; height:90px; overflow:hidden; display: block; margin: auto' loading="lazy"></iframe>
             </div>
 
             <div class="scripts-grid" id="scripts-container"></div>
+
+            <!-- 4. IN-PAGE AD #2 (BOTTOM OF MAIN CONTENT) -->
+            <div class="ad-container">
+                <iframe data-aa='2456731' src='https://acceptable.a-ads.com/2456731/?size=Adaptive'
+                        style='border:0; padding:0; width:100%; max-width:728px; height:90px; overflow:hidden; display: block; margin: auto' loading="lazy"></iframe>
+            </div>
         </div>
 
         <!-- BYPASS TAB -->
@@ -126,6 +183,7 @@
                 tabBtn.textContent = 'Scripts Hub';
             } else {
                 bypassTab.classList.remove('active');
+                scriptsTab.classList.active;
                 scriptsTab.classList.add('active');
                 tabBtn.textContent = 'Link Bypass';
             }
