@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B.ME — Roblox Script Hub</title>
+    <title>B.ME — Roblox Script Hub & Link Bypass</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,17 +16,25 @@
         
         header { border-bottom: 1px solid var(--border); background: #0b0d12; }
         .header-container { max-width: 1000px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
-        .logo { font-size: 1.4rem; font-weight: 800; }
+        .logo { font-size: 1.4rem; font-weight: 800; text-decoration: none; }
         .logo-b { color: #fff; }
         .logo-me { color: var(--accent); font-family: var(--mono); }
-        .nav-tabs { display: flex; gap: 0.25rem; background: var(--card); padding: 0.25rem; border-radius: 8px; border: 1px solid var(--border); }
-        .tab-btn { background: transparent; border: none; color: var(--sub); padding: 0.45rem 1rem; font-family: var(--sans); font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; }
-        .tab-btn.active { background: var(--accent); color: #fff; }
         
+        .nav-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .nav-btn:hover { opacity: 0.9; }
+
         main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; width: 100%; flex: 1; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        
         .panel-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
         .panel-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem; }
         .panel-desc { color: var(--sub); font-size: 0.875rem; margin-bottom: 1.25rem; }
@@ -35,8 +43,11 @@
         @media (min-width: 640px) { .input-group { flex-direction: row; } }
         .input-field { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 1rem; color: var(--text); font-family: var(--sans); font-size: 0.9rem; outline: none; }
         .input-field:focus { border-color: var(--accent); }
-        .btn-action { background: var(--accent); color: #fff; border: none; padding: 0.75rem 1.5rem; font-family: var(--sans); font-size: 0.9rem; font-weight: 600; border-radius: 8px; cursor: pointer; white-space: nowrap; }
-        .btn-action:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        .btn-action { background: var(--accent); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-action:hover { opacity: 0.9; }
+
+        .timer-box { margin-top: 1rem; font-family: var(--mono); font-size: 0.9rem; color: #38bdf8; display: none; }
         
         .scripts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
         .script-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; }
@@ -46,78 +57,136 @@
         .btn-copy { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 0.5rem; font-family: var(--sans); font-size: 0.8rem; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; transition: all 0.2s; }
         .btn-copy:hover { border-color: var(--accent); color: var(--accent); }
         
-        .ad-container { margin: 2rem auto; text-align: center; width: 100%; max-width: 728px; }
+        .bypass-result { margin-top: 1rem; padding: 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-family: var(--mono); word-break: break-all; display: none; }
+
+        .ad-container { margin: 2rem auto; text-align: center; width: 100%; max-width: 728px; min-height: 90px; }
         
-        footer { border-top: 1px solid var(--border); padding: 1.25rem 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+        footer { border-top: 1px solid var(--border); padding: 1.25rem 1.5rem; text-align: center; color: var(--sub); font-size: 0.8rem; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
     </style>
 </head>
 <body>
     <header>
         <div class="header-container">
             <a href="#" class="logo"><span class="logo-b">B.</span><span class="logo-me">ME</span></a>
-            <nav class="nav-tabs">
-                <button class="tab-btn active" data-tab="scripts">Scripts Hub</button>
-            </nav>
+            <button class="nav-btn" id="tab-toggle-btn">Link Bypass</button>
         </div>
     </header>
 
     <main>
-        <!-- SCRIPTS HUB TAB -->
-        <section id="tab-scripts" class="tab-content active">
+        <!-- SCRIPTS TAB -->
+        <div id="scripts-tab" class="tab-content active">
             <div class="panel-box">
                 <div class="panel-title">Roblox Scripts Hub</div>
-                <div class="panel-desc">Search thousands of scripts from ScriptBlox. No API key required.</div>
+                <div class="panel-desc">Search thousands of scripts from ScriptBlox. Auto-failsafe enabled.</div>
                 <div class="input-group">
                     <input type="text" class="input-field" id="script-search" placeholder="Search scripts (e.g. 'admin', 'infinite yield')...">
                 </div>
+                <div class="timer-box" id="timer-box">⏱ <span id="timer-count">00:00</span></div>
             </div>
 
-            <!-- Ad Unit -->
+            <!-- Ad Unit Fixed Embed -->
             <div class="ad-container">
-                <!-- BEGIN AADS AD UNIT 2456731 -->
                 <div id="frame" style="width: 100%; margin: auto; position: relative; z-index: 99998;">
-                    <iframe data-aa='2456731' src='//acceptable.a-ads.com/2456731/?size=Adaptive'
-                            style='border:0; padding:0; width:70%; height:auto; overflow:hidden; display: block; margin: auto'></iframe>
+                    <iframe data-aa='2456731' src='https://acceptable.a-ads.com/2456731/?size=Adaptive'
+                            style='border:0; padding:0; width:100%; max-width:728px; height:90px; overflow:hidden; display: block; margin: auto' loading="lazy"></iframe>
                 </div>
-                <!-- END AADS AD UNIT 2456731 -->
             </div>
 
-            <div class="scripts-grid" id="scripts-container">
-                <!-- Script cards loaded via JS -->
+            <div class="scripts-grid" id="scripts-container"></div>
+        </div>
+
+        <!-- BYPASS TAB -->
+        <div id="bypass-tab" class="tab-content">
+            <div class="panel-box">
+                <div class="panel-title">Linkvertise & Ad-Link Bypass</div>
+                <div class="panel-desc">Bypass key systems, Linkvertise, Work.ink, and LootLabs links.</div>
+                <div class="input-group">
+                    <input type="url" class="input-field" id="bypass-url" placeholder="Paste link here (e.g. https://linkvertise.com/...)" required>
+                    <button class="btn-action" id="btn-bypass">Bypass</button>
+                </div>
+                <div class="bypass-result" id="bypass-result"></div>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer>B.ME &mdash; Independent Utility Tool</footer>
 
     <script>
-        // ========== SCRIPTBLOX HUB (Keyless via Proxy) ==========
+        // ========== NAVIGATION TAB TOGGLE ==========
+        const tabBtn = document.getElementById('tab-toggle-btn');
+        const scriptsTab = document.getElementById('scripts-tab');
+        const bypassTab = document.getElementById('bypass-tab');
+
+        tabBtn.addEventListener('click', () => {
+            if (scriptsTab.classList.contains('active')) {
+                scriptsTab.classList.remove('active');
+                bypassTab.classList.add('active');
+                tabBtn.textContent = 'Scripts Hub';
+            } else {
+                bypassTab.classList.remove('active');
+                scriptsTab.classList.add('active');
+                tabBtn.textContent = 'Link Bypass';
+            }
+        });
+
+        // ========== TIMER ==========
+        let timerInterval = null;
+        const timerBox = document.getElementById('timer-box');
+        const timerCount = document.getElementById('timer-count');
+
+        function startTimer() {
+            let seconds = 0;
+            timerBox.style.display = 'block';
+            clearInterval(timerInterval);
+            timerCount.textContent = '00:00';
+            timerInterval = setInterval(() => {
+                seconds++;
+                const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+                const s = String(seconds % 60).padStart(2, '0');
+                timerCount.textContent = `${m}:${s}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerBox.style.display = 'none';
+        }
+
+        // ========== SCRIPTBLOX HUB (WITH PROXY FAILSAFE) ==========
         const SCRIPTS_CONTAINER = document.getElementById('scripts-container');
         const SEARCH_INPUT = document.getElementById('script-search');
         let searchTimeout;
 
-        // Using the free ScriptBlox proxy API (no key required) [citation:1]
-        const API_BASE = 'https://scriptblox-api-proxy.vercel.app/api';
+        async function fetchWithFallback(endpoint) {
+            const proxies = [
+                `https://scriptblox-api-proxy.vercel.app/api/${endpoint}`,
+                `https://scriptblox.com/api/script/${endpoint}`,
+                `https://corsproxy.io/?${encodeURIComponent('https://scriptblox.com/api/script/' + endpoint)}`
+            ];
+
+            for (const url of proxies) {
+                try {
+                    const res = await fetch(url);
+                    if (res.ok) {
+                        const data = await res.json();
+                        return data;
+                    }
+                } catch (e) {
+                    console.warn(`Proxy failed: ${url}`);
+                }
+            }
+            throw new Error('All script endpoints failed to fetch. Please check network/CORS.');
+        }
 
         async function loadScripts(query = '') {
             SCRIPTS_CONTAINER.innerHTML = '<div style="color:var(--sub);grid-column:1/-1;text-align:center;padding:2rem">Loading scripts...</div>';
+            startTimer();
             
             try {
-                let url;
-                if (query) {
-                    // Search endpoint
-                    url = `${API_BASE}/search?q=${encodeURIComponent(query)}`;
-                } else {
-                    // Default fetch (trending/free scripts)
-                    url = `${API_BASE}/fetch?mode=free`;
-                }
-
-                const resp = await fetch(url);
-                if (!resp.ok) throw new Error(`API returned ${resp.status}`);
-                
-                const data = await resp.json();
-                
-                // The proxy may return scripts under `result.scripts` or `scripts`
+                const endpoint = query ? `search?q=${encodeURIComponent(query)}` : 'fetch';
+                const data = await fetchWithFallback(endpoint);
                 const scripts = data.result?.scripts || data.scripts || data;
                 
                 if (!scripts || scripts.length === 0) {
@@ -128,6 +197,8 @@
                 renderScriptCards(scripts);
             } catch (err) {
                 SCRIPTS_CONTAINER.innerHTML = `<div style="color:var(--err);grid-column:1/-1;text-align:center;padding:2rem">Error loading scripts: ${err.message}</div>`;
+            } finally {
+                stopTimer();
             }
         }
 
@@ -153,8 +224,7 @@
                 `;
                 
                 card.querySelector('.btn-copy').addEventListener('click', function() {
-                    const code = this.dataset.script;
-                    navigator.clipboard.writeText(code).then(() => {
+                    navigator.clipboard.writeText(this.dataset.script).then(() => {
                         this.innerText = 'Copied!';
                         setTimeout(() => { this.innerText = 'Copy Script'; }, 2000);
                     }).catch(() => {
@@ -172,7 +242,6 @@
             return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
         }
 
-        // Debounced search
         SEARCH_INPUT.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
@@ -180,7 +249,36 @@
             }, 500);
         });
 
-        // Initial load
+        // ========== BYPASS SYSTEM ==========
+        const bypassInput = document.getElementById('bypass-url');
+        const bypassBtn = document.getElementById('btn-bypass');
+        const bypassResult = document.getElementById('bypass-result');
+
+        bypassBtn.addEventListener('click', async () => {
+            const url = bypassInput.value.trim();
+            if (!url) return;
+
+            bypassResult.style.display = 'block';
+            bypassResult.style.color = 'var(--sub)';
+            bypassResult.innerHTML = 'Bypassing... Please wait...';
+
+            try {
+                const apiRes = await fetch(`https://api.bypass.city/bypass?url=${encodeURIComponent(url)}`);
+                const data = await apiRes.json();
+
+                if (data.destination) {
+                    bypassResult.style.color = '#38bdf8';
+                    bypassResult.innerHTML = `<strong>Result:</strong> <a href="${escapeHtml(data.destination)}" target="_blank" style="color:#38bdf8">${escapeHtml(data.destination)}</a>`;
+                } else {
+                    throw new Error(data.message || 'Failed to bypass link.');
+                }
+            } catch (err) {
+                bypassResult.style.color = 'var(--err)';
+                bypassResult.innerHTML = `Error: ${escapeHtml(err.message)}`;
+            }
+        });
+
+        // Initial Load
         loadScripts();
     </script>
 </body>
